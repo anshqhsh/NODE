@@ -1,7 +1,7 @@
 // bufer? - 고정된 사이즈의 메모리 덩어리
 // array of integers, byte of data
 // 메모리에 들어있는 데이터 형태로(byte)
-const buf = Buffer.from("Hi");
+const buf = Buffer.from('Hi');
 console.log(buf);
 console.log(buf.length);
 console.log(buf[0]);
