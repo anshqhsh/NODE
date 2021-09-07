@@ -1,23 +1,44 @@
-import express from 'express';
+import express, { response } from 'express';
 const app = express();
 
-//http://localhost:8080/sky/joonhyuk joonhyuk 를 id로 사용 할 수 있다.
-app.get('/sky/:id', (req, res, next) => {
-  // console.log('path : ', req.path);
-  // console.log('headers : ', req.headers);
-  console.log(req.params);
-  console.log(req.params.id);
-  //http://localhost:8080/sky/joonhyuk/?keyword=bts = query :  { keyword: 'bts' }
-  console.log('query : ', req.query);
-  console.log(req.query.keyword);
+//app.all 에서는 쓰여진 url만 처리
+app.all('/api/*', (req, res, next) => {
+  console.log('all');
+  next();
+});
 
-  // res.json({ name: 'joonhyuk' });
-  // res.json({name : joon});
-  // res.sendStatus(400);
-  res.status(201).send('created');
-  res.setHeader('key', 'value'); // header에 필여한 것을 세팅
-}); // 메소드를 이용
+//use는 all과 다르게 url 이후까지 처리 가능
+app.use('/sky', (req, res, next) => {
+  console.log('use');
+  next();
+});
+
+app.get(
+  '/',
+  (req, res, next) => {
+    console.log('first');
+    if (true) {
+      return res.send('Hello'); // 한 콜백 함수에서 두번 send를 보내면 에러 return을 이용해 콜백을 나가야함
+    }
+    res.send('joon');
+    // next('route'); // 다음 경로로 넘어감 route설정하면 그냥 넘어감
+    // next(new Error('error')); // 에러 처리
+  },
+  (req, res, next) => {
+    console.log('first2');
+  }
+);
+app.get('/', (req, res, next) => {
+  console.log('second');
+});
+
+app.use((req, res, next) => {
+  res.status(404).send('Not avilable!@_@');
+});
+
+app.use((error, req, res, next) => {
+  console.error(error);
+  res.status(500).send('Sorry, try later!');
+}); // 어플 마지막엔 에러 처리를 해줘야함
+
 app.listen(8081);
-
-//IP
-//PORT 서버의 IP 주소 어떤 어플리케이션에 접속할지 알려 주는 것
