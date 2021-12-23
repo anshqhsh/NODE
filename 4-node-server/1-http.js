@@ -1,9 +1,6 @@
 const http = require('http'); // node http 모듈을 사용
 // const http2 = require('http2'); //https 사용 됨  배포할때 변경
-const fs = require('fs');
-
-// console.log(http.STATUS_CODES);
-// console.log(http.METHODS);
+const fs = require('fs'); //file System
 
 //req : request, res : response
 const server = http.createServer((req, res) => {
