@@ -18,6 +18,7 @@ app.post(
   [
     body('name')
       .notEmpty()
+      .trim() // 공백을 제거해줌 - 순서에 유의
       .withMessage('이름을 입력해주세요')
       .isLength({ min: 2, max: 10 })
       .withMessage('이름은 두글자 이상'),
